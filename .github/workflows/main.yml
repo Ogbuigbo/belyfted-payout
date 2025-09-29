@@ -1,0 +1,60 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+name: 🚀 CI/CD Deployment pipeline for Sheqelpay frontend(Production)
+
+jobs:
+  web-deploy:
+    name: 🎉 Production Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: 18.20.8  # Use the desired Node.js version
+
+      # - name: Install dependencies and build Next.js app
+      #   run: |
+      #     npm install  # Install project dependencies
+      #     npm run build  # Build Next.js app
+
+      - name: 📂 Sync files and deploying via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server:   ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.username_prod_frontend }}
+          password: ${{ secrets.password_prod_frontend }}
+          local-dir: ./  # This points to the build output directory of your Next.js app
+          server-dir: /
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.env**
+            **/node_modules/**
+            .env
+            .htaccess
+  notify:
+    needs: web-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post build notification in slack channel
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          webhook: ${{ secrets.SLACK_DEPLOYMENT_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "*Sheqelpay Frontend(Production) CI/CD Deployment Result"
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "Sheqelpay Frontend(Production) CI/CD Deployment Result: \n\n *Status:* ${{ job.status }} \n\n *PR/Commit URL:* ${{ github.event.pull_request.html_url || github.event.head_commit.url }} \n\n *Branch:* ${{ github.ref }} \n\n *Repository:* ${{ github.repository }} \n\n *P.R Reviewer*: ERNEST \n\n *Live At:* https://sheqelpay.com"

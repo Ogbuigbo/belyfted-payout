@@ -1,0 +1,14 @@
+DirectoryIndex disabled
+RewriteEngine On
+
+RewriteRule ^$ http://127.0.0.1:8080/ [P,L]
+
+# Only proxy requests if they are not for static files or existing files
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Proxy everything to the Node.js app running on port 8080
+RewriteRule ^(.*)$ http://127.0.0.1:8080/$1 [P,L]
+
+# Needed for some hosting environments
+#ProxyPreserveHost On

@@ -1,0 +1,29 @@
+
+.skeleton {
+    background: linear-gradient(90deg, #eceff4 25%, #eff5f7 50%, #eceff4 75%);
+    background-size: 200% 100%; 
+    animation: shimmer-reverse 2s infinite linear;
+    border-radius: 4px;
+}
+
+@keyframes shimmer-reverse {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+
+/* .skeleton {
+    animation: shimmer-reverse 1s ease-in-out infinite;
+    background-color: rgb(226, 229, 231);
+}
+
+
+@keyframes  shimmer-reverse{
+    50% {
+        opacity: .5;
+    }
+} */

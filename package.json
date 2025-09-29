@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack -p 3000",
+    "dev": "next dev",
     "build": "next build",
-    "start-dev": "next start -p 3000",
+   "start": "next start",
     "start-prod": "NODE_ENV=production PORT=8080 node server.js",
     "lint": "next lint",
     "clean": "rmdir /s /q .next"

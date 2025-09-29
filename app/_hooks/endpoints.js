@@ -1,5 +1,5 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-const API_V1 = process.env.NEXT_PUBLIC_API_V1;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://sheqelpay247-staging.sheqelpay.com/';
+const API_V1 = process.env.NEXT_PUBLIC_API_V1 || 'api/v1/';
 
 export const ENDPOINTS = {
   REGISTER: `${BASE_URL}${API_V1}merchant/auth/register`,
